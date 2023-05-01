@@ -1,36 +1,15 @@
 const app = require("express")();
 const bodyParser = require("body-parser");
 
+const { sendEmail } = require("./controllers");
+
 app.use(require("morgan")("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(require("cors")());
-const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-app.get("/sendemail", async (req, res, next) => {
-  const email = process.env.EMAIL;
-  const transponter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: email,
-      pass: process.env.PASSWORD,
-    },
-  });
-  const option = {
-    from: email,
-    to: email,
-    subject: "Замовлення",
-    text: "Ви отримали нове замовлення",
-  };
-  transponter.sendMail(option, function (error, info) {
-    if (error) {
-      console.log(error.message, "error");
-    } else {
-      console.log("mail sent", info);
-    }
-  });
-});
+app.post("/sendemail", sendEmail);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
