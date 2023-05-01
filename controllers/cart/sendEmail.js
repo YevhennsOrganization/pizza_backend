@@ -1,10 +1,8 @@
 const nodemailer = require("nodemailer");
-// const { Cart } = require("../../models");
 
 const sendEmail = async (req, res, next) => {
   const email = process.env.EMAIL;
-  const { name, sum } = req.body;
-  const result = await { ...name, ...sum };
+  const result = await req.body;
 
   const transponter = nodemailer.createTransport({
     service: "gmail",
@@ -17,20 +15,20 @@ const sendEmail = async (req, res, next) => {
     from: email,
     to: email,
     subject: "Замовлення",
-    text: result,
+    text: JSON.stringify(result),
   };
   transponter.sendMail(option, function (error, info) {
     if (error) {
       console.log(error.message, "error");
     } else {
       console.log("mail sent", info);
-      //   res.status(201).json({
-      //     status: "success",
-      //     code: 201,
-      //     data: { result },
-      //   });
     }
+  });
+  res.status(201).json({
+    status: "success",
+    code: 201,
+    data: { result },
   });
 };
 
-module.exports = { sendEmail };
+module.exports = sendEmail;
