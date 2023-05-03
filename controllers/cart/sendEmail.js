@@ -1,6 +1,6 @@
 const hbs = require("nodemailer-express-handlebars");
 const nodemailer = require("nodemailer");
-const path = require("path");
+const path = require("node:path");
 
 const sendEmail = async (req, res, next) => {
   const email = process.env.EMAIL;
@@ -17,10 +17,10 @@ const sendEmail = async (req, res, next) => {
 
   const handlebarOptions = {
     viewEngine: {
-      partialsDir: path.resolve("../../views/email.handlebars"),
+      partialsDir: path.resolve("./views/"),
       defaultLayout: false,
     },
-    viewPath: path.resolve("../../views/email.handlebars"),
+    viewPath: path.resolve("./views/"),
   };
 
   transporter.use("compile", hbs(handlebarOptions));
