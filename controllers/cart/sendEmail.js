@@ -17,10 +17,10 @@ const sendEmail = async (req, res, next) => {
 
   const handlebarOptions = {
     viewEngine: {
-      partialsDir: path.resolve("./views/"),
+      partialsDir: path.resolve("../../views/email.handlebars"),
       defaultLayout: false,
     },
-    viewPath: path.resolve("./views/"),
+    viewPath: path.resolve("../../views/email.handlebars"),
   };
 
   transporter.use("compile", hbs(handlebarOptions));
