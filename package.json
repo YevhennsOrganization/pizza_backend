@@ -20,6 +20,7 @@
     "express": "^4.18.2",
     "express-handlebars": "^7.0.7",
     "morgan": "^1.10.0",
+    "node-path": "^0.0.3",
     "nodemailer": "^6.9.1",
     "nodemailer-express-handlebars": "^6.1.0",
     "nodemon": "^2.0.22",
