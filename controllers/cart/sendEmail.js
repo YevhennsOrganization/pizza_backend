@@ -1,33 +1,51 @@
+const hbs = require("nodemailer-express-handlebars");
 const nodemailer = require("nodemailer");
+const path = require("path");
 
 const sendEmail = async (req, res, next) => {
   const email = process.env.EMAIL;
+  const pasword = process.env.PASSWORD;
   const result = await req.body;
 
-  const transponter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: email,
-      pass: process.env.PASSWORD,
+      pass: pasword,
     },
   });
-  const option = {
+
+  const handlebarOptions = {
+    viewEngine: {
+      partialsDir: path.resolve("./views/"),
+      defaultLayout: false,
+    },
+    viewPath: path.resolve("./views/"),
+  };
+
+  transporter.use("compile", hbs(handlebarOptions));
+
+  const mailOptions = {
     from: email,
     to: email,
     subject: "Замовлення",
-    text: JSON.stringify(result),
+    template: "email",
+    context: {
+      data: Object.values(result),
+    },
   };
-  transponter.sendMail(option, function (error, info) {
+
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error.message, "error");
     } else {
       console.log("mail sent", info);
+      res.status(201).json({
+        status: "success",
+        code: 201,
+        data: { result },
+      });
     }
-  });
-  res.status(201).json({
-    status: "success",
-    code: 201,
-    data: { result },
   });
 };
 
