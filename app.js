@@ -13,6 +13,10 @@ app.use(bodyParser.json());
 app.use(require("cors")());
 require("dotenv").config();
 
-app.post("/sendemail", ctrlWrapper(sendEmail));
+app.get("/", (req, res) => {
+  res.send("Main page");
+});
+
+app.post("/", ctrlWrapper(sendEmail));
 
 module.exports = app;
