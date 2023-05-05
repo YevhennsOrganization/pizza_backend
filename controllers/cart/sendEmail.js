@@ -1,11 +1,13 @@
 const hbs = require("nodemailer-express-handlebars");
 const nodemailer = require("nodemailer");
 const path = require("path");
+require("dotenv").config();
 
 const sendEmail = async (req, res, next) => {
   const email = process.env.EMAIL;
   const pasword = process.env.PASSWORD;
   const result = await req.body;
+  console.log(req.body);
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
