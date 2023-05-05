@@ -1,6 +1,6 @@
 const hbs = require("nodemailer-express-handlebars");
 const nodemailer = require("nodemailer");
-const path = require("node:path");
+const path = require("path");
 
 const sendEmail = async (req, res, next) => {
   const email = process.env.EMAIL;
