@@ -9,8 +9,19 @@ const sendEmail = async (req, res, next) => {
   const result = await req.body;
   console.log(req.body);
 
+  // const transporter = nodemailer.createTransport({
+  //   service: "gmail",
+  //   auth: {
+  //     user: email,
+  //     pass: pasword,
+  //   },
+  // });
+
   const transporter = nodemailer.createTransport({
+    host: "pop.gmail.com",
+    port: 995,
     service: "gmail",
+    secure: false,
     auth: {
       user: email,
       pass: pasword,
