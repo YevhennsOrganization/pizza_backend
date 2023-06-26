@@ -14,8 +14,7 @@ app.use(require("cors")());
 require("dotenv").config();
 
 app.get("/", (req, res) => {
-  res.send("Main page");
-  console.log(process.env);
+  res.send(console.log(process.env));  
 });
 
 app.post("/", ctrlWrapper(sendEmail));
