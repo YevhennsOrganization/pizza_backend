@@ -33,7 +33,7 @@ const sendEmail = async (req, res, next) => {
     subject: "Замовлення",
     template: "email",
     context: {
-      data: Object.values(result),
+      data: result,
     },
   };
 
