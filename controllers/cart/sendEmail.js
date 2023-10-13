@@ -3,17 +3,28 @@ const nodemailer = require("nodemailer");
 const path = require("path");
 require("dotenv").config();
 
-const sendEmail = async (req, res, next) => {
+const sendEmail = async (req, res) => {
   const email = process.env.EMAIL;
-  const pasword = process.env.PASSWORD;
-  const result = await req.body;
-  console.log(req.body);
+  const password = process.env.PASSWORD;
+  const result = await JSON.parse(req.body.body);
+  // console.log(typeof (JSON.parse(result)))
+  console.log(result.customerInfo);
+  // console.log(result.payment)
 
+  let newObj = {}
+  const items = result.payment.map((item) => item.title+' - '+item.quantity+'шт. ')
+  const summaryInfo = {
+    name: result.customerInfo.name,
+    number: result.customerInfo.number,
+    sum: result.customerInfo.sum,
+    items: items
+  }
+  console.log(items)
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: email,
-      pass: pasword,
+      pass: password,
     },
   });
 
@@ -33,11 +44,11 @@ const sendEmail = async (req, res, next) => {
     subject: "Замовлення",
     template: "email",
     context: {
-      data: result,
+      data: summaryInfo,
     },
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
+  await transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error.message, "error");
     } else {
