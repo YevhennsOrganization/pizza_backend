@@ -17,6 +17,8 @@ const sendEmail = async (req, res) => {
     name: result.customerInfo.name,
     number: result.customerInfo.number,
     sum: result.customerInfo.sum,
+    comment: result.customerInfo.comment,
+    address: result.customerInfo.address,
     items: items
   }
   console.log(items)
