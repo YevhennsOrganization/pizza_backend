@@ -1,3 +1,4 @@
-const sendEmail = require("./cart");
+const { sendEmail } = require("./cart");
+const pizza = require("./pizza");
 
-module.exports = sendEmail;
+module.exports = { sendEmail, pizza };

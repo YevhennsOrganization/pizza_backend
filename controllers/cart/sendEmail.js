@@ -11,17 +11,18 @@ const sendEmail = async (req, res) => {
   console.log(result.customerInfo);
   // console.log(result.payment)
 
-  let newObj = {}
-  const items = result.payment.map((item) => item.title+' - '+item.quantity+'шт. ')
+    const items = result.payment.map(
+    (item) => item.title + " - " + item.quantity + "шт. ",
+  );
   const summaryInfo = {
     name: result.customerInfo.name,
     number: result.customerInfo.number,
     sum: result.customerInfo.sum,
     comment: result.customerInfo.comment,
     address: result.customerInfo.address,
-    items: items
-  }
-  console.log(items)
+    items: items,
+  };
+  console.log(items);
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
