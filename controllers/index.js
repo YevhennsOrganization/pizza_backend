@@ -1,6 +1,7 @@
 const sendEmail = require("./cart");
-const pizza  = require("./pizza");
+const pizza = require("./pizza");
 const appetizer = require("./appetizer");
 const drink = require("./drink");
+const healthcheck = require("./healthcheck");
 
-module.exports = { sendEmail, pizza, appetizer, drink };
+module.exports = { sendEmail, pizza, appetizer, drink, healthcheck };

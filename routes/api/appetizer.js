@@ -7,4 +7,4 @@ const { appetizer: ctrl } = require("../../controllers");
 
 router.get("/", ctrlWrapper(ctrl.getAll));
 
-module.exports = { router };
+module.exports = router;

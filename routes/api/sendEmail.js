@@ -3,8 +3,8 @@ const router = express.Router();
 
 const ctrlWrapper = require("../../middlewares");
 
-const { drink: ctrl } = require("../../controllers");
+const { sendEmail: ctrl } = require("../../controllers");
 
-router.get("/", ctrlWrapper(ctrl.getAll));
+router.post("/", ctrlWrapper(ctrl.sendEmail()));
 
 module.exports = router;
