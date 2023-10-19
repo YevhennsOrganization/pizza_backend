@@ -21,7 +21,7 @@ app.use("/api/sendEmail", sendEmailRouter);
 app.use("/api/pizza", pizzaRouter);
 app.use("/api/appetizer", appetizerRouter);
 app.use("/api/drink", drinkRouter);
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   const { status = 500 } = err;
   res.status(status).json({ message: err.message });
 });

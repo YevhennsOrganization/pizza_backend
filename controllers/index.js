@@ -1,4 +1,4 @@
-const sendEmail = require("./cart");
+const sendEmail = require("./sendEmail");
 const pizza = require("./pizza");
 const appetizer = require("./appetizer");
 const drink = require("./drink");

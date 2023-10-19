@@ -6,12 +6,14 @@ require("dotenv").config();
 const sendEmail = async (req, res) => {
   const email = process.env.EMAIL;
   const password = process.env.PASSWORD;
-  if(req !== undefined) {
+
+  if (req !== undefined) {
     const result = await JSON.parse(req.body.body);
 
     const items = result.payment.map(
-        (item) => item.title + " - " + item.quantity + "шт. ",
+      (item) => item.title + " - " + item.quantity + "шт. ",
     );
+
     const summaryInfo = {
       name: result.customerInfo.name,
       number: result.customerInfo.number,
@@ -20,7 +22,7 @@ const sendEmail = async (req, res) => {
       address: result.customerInfo.address,
       items: items,
     };
-    console.log(items);
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -62,7 +64,6 @@ const sendEmail = async (req, res) => {
       }
     });
   }
-
 };
 
 module.exports = sendEmail;
