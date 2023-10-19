@@ -3,7 +3,7 @@ const router = express.Router();
 
 const ctrlWrapper = require("../../middlewares");
 
-const { pizza: ctrl } = require("../../controllers");
+const { drink: ctrl } = require("../../controllers");
 
 router.get("/", ctrlWrapper(ctrl.getAll));
 
