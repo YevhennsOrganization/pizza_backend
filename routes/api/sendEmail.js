@@ -5,6 +5,6 @@ const ctrlWrapper = require("../../middlewares");
 
 const { sendEmail: ctrl } = require("../../controllers");
 
-router.post("/", ctrlWrapper(ctrl.sendEmail()));
+router.post("/", ctrlWrapper(ctrl.sendEmail));
 
 module.exports = router;

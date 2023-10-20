@@ -17,13 +17,30 @@ app.use(bodyParser.json());
 app.use(require("cors")());
 
 app.use("/", healthcheckRouter);
-app.use("/api/sendEmail", sendEmailRouter);
-app.use("/api/pizza", pizzaRouter);
-app.use("/api/appetizer", appetizerRouter);
-app.use("/api/drink", drinkRouter);
-app.use((err, req, res) => {
-  const { status = 500 } = err;
-  res.status(status).json({ message: err.message });
-});
+app.use("/", sendEmailRouter);
+app.use("/api/pizzas", pizzaRouter);
+app.use("/api/appetizers", appetizerRouter);
+app.use("/api/drinks", drinkRouter);
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
+
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}
+
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.status(500).send({ error: "Something failed!" });
+  } else {
+    next(err);
+  }
+}
+
+function errorHandler(err, req, res) {
+  res.status(500);
+  res.render("error", { error: err });
+}
 
 module.exports = app;
