@@ -11,33 +11,42 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
     env:
-      name: "pizza-backend"
+      name: ghcr.io/yevhennsorganization/pizza-backend
       key: "ssh_key"
       stamp: ${GITHUB_SHA}
-      host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}"
+      host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
+      ghcr_user: $(echo ${{ github.repository_owner }} | tr '[A-Z]' '[a-z]')
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
            
       - name: Build docker image
         run: |
           docker build . -t ${{ env.name }}:${{ env.stamp }}
-          
-      - name: Save docker image
+          docker tag ${{ env.name }}:${{ env.stamp }} ${{ env.name }}:latest
+
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+        
+      - name: Push image
         run: |
-          docker save -o ${{ env.name }}.tar ${{ env.name }}:${{ env.stamp }}
-      
-      - name: Copy image to EC2
+          docker push ${{ env.name }}:latest
+          docker push ${{ env.name }}:${{ env.stamp }}
+
+      - name: SSH key
         run: |
           echo "${{ secrets.SSH_KEY }}" > ${key}
           sudo chmod 400 ${key}
-          scp -i ${key} -o "StrictHostKeyChecking no" ${{ env.name }}.tar ${{ env.host }}:${{ env.name }}.tar
-        
+
       - name: Start image
         run: |
           ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
-          sudo docker load -i '${{ env.name }}'.tar && \
-          docker rmi $(sudo docker images -q); \
-          rm '${{ env.name }}'.tar'
+          echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u '${{ env.ghcr_user }}' --password-stdin; \
+          docker pull '${{ env.name }}':latest && \
+          docker compose -f ~/backend/docker-compose.yaml up -d; \
+          docker rmi $(sudo docker images -q) || true'
