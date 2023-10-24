@@ -23,7 +23,7 @@ jobs:
     steps:
     - name: Build docker image
       run: |
-        echo ${GITHUB_REPOSITORY#*/}
+        echo ${GITHUB_REPOSITORY}
 
     # - uses: actions/delete-package-versions@v4
     #   with: 
