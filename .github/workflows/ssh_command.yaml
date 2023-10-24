@@ -28,7 +28,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           account-type: org
           org-name: ${{ env.ghcr_user }}
-          cut-off: 1 min ago
+          cut-off: 1 min ago UTC
           skip-tags: latest
-          image-names: pizza-backend:*
+          image-names: pizza-backend
           dry-run: true
