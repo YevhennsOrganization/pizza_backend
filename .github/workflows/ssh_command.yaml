@@ -20,7 +20,7 @@ jobs:
       stamp: ${GITHUB_SHA}
       host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
       ghcr_user: $(echo ${{ github.repository_owner }} | tr '[A-Z]' '[a-z]')
-
+    steps:
     - uses: actions/delete-package-versions@v4
       with: 
         package-name: ${GITHUB_REPOSITORY#*/}"
