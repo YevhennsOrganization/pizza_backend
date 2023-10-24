@@ -29,7 +29,7 @@ jobs:
       - name: Start image
         run: |
           ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
-          echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u yevhennsorganization --password-stdin \
+          echo CR='${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u $CR --password-stdin \
           docker pull '${{ env.name }}':latest && \
           docker compose -d -f ~/backend/docker-compose.yaml up; \
           docker rmi $(sudo docker images -q)'
