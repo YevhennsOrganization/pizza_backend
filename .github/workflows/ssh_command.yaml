@@ -19,17 +19,16 @@ jobs:
       key: "ssh_key"
       stamp: ${GITHUB_SHA}
       host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
-    
-    steps:
-      - name: SSH key
-        run: |
-          echo "${{ secrets.SSH_KEY }}" > ${key}
-          sudo chmod 400 ${key}
+      ghcr_user: $(echo ${{ github.repository_owner }} | tr '[A-Z]' '[a-z]')
 
-      - name: Start image
-        run: |
-          ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
-          echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u $ --password-stdin \
-          docker pull '${{ env.name }}':latest && \
-          docker compose -d -f ~/backend/docker-compose.yaml up; \
-          docker rmi $(sudo docker images -q)'
+    steps: 
+      - name: Delete old images
+        uses: snok/container-retention-policy@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          account-type: org
+          org-name: ${{ env.ghcr_user }}
+          cut-off: 1 min ago
+          skip-tags: latest
+          image-names: pizza-backend:*
+          dry-run: true
