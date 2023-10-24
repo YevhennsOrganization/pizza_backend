@@ -50,3 +50,11 @@ jobs:
           docker pull '${{ env.name }}':latest && \
           docker compose -f ~/backend/docker-compose.yaml up -d; \
           docker rmi $(sudo docker images -q) || true'
+
+      - name: Delete old packages
+        uses: actions/delete-package-versions@v4
+        with: 
+          package-name: 'pizza-backend'
+          package-type: 'container'
+          min-versions-to-keep: 1
+          ignore-versions: 'latest'
