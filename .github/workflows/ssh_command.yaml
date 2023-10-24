@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: read
-      packages: delete
+      packages: write
     env:
       name: ghcr.io/yevhennsorganization/pizza-backend
       key: "ssh_key"
@@ -22,13 +22,9 @@ jobs:
       ghcr_user: $(echo ${{ github.repository_owner }} | tr '[A-Z]' '[a-z]')
 
     steps: 
-      - name: Delete old images
-        uses: snok/container-retention-policy@v2
-        with:
-          token: ${{ secrets.TOKEN }}
-          account-type: org
-          org-name: yevhennsorganization
-          cut-off: 1 min ago UTC
-          skip-tags: latest
-          image-names: pizza-backend
-          dry-run: true
+    - uses: actions/delete-package-versions@v4
+      with: 
+        package-name: 'pizza-backend'
+        package-type: 'container'
+        min-versions-to-keep: 1
+        ignore-versions: 'latest'
