@@ -15,7 +15,7 @@ jobs:
       name: "pizza-backend"
       key: "ssh_key"
       stamp: ${GITHUB_SHA}
-      host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}"
+      host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
     
     steps:
       - name: Checkout code
