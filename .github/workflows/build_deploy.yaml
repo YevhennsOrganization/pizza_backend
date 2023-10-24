@@ -37,8 +37,8 @@ jobs:
             docker push ${{ env.name }}:latest
             docker push ${{ env.name }}:${{ env.stamp }}
           
-       - name: Start image
-         run: |
+      - name: Start image
+        run: |
             ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
             docker pull ${{ env.name }}:latest && \
             docker compose -d -f ~/backend/docker-compose.yaml up; \
