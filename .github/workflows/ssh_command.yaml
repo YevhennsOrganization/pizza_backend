@@ -19,6 +19,7 @@ jobs:
       key: "ssh_key"
       stamp: ${GITHUB_SHA}
       host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
+      ghcr_user: yevhennsorganization
     
     steps:
       - name: SSH key
@@ -29,7 +30,7 @@ jobs:
       - name: Start image
         run: |
           ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
-          echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u yevhennsorganization --password-stdin; \
+          echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u '${{ env.ghcr_user }}' --password-stdin; \
           docker pull '${{ env.name }}':latest && \
           docker compose -f ~/backend/docker-compose.yaml up -d; \
-          docker rmi $(sudo docker images -q)'
+          docker rmi $(sudo docker images -q);'
