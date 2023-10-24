@@ -30,7 +30,7 @@ jobs:
         run: |
           ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
           export CR_PAT='${{ secrets.GITHUB_TOKEN }}'; \
-          echo echo $CR_PAT | docker login ghcr.io -u $ --password-stdin \
+          echo echo $CR_PAT | docker login ghcr.io -u $ --password-stdin; \
           docker pull '${{ env.name }}':latest && \
           docker compose -d -f ~/backend/docker-compose.yaml up; \
           docker rmi $(sudo docker images -q)'
