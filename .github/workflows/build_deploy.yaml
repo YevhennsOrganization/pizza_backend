@@ -26,11 +26,13 @@ jobs:
           docker build . -t ${{ env.name }}:${{ env.stamp }}
 
       - name: Log in to registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+        run: echo "${{ secrets.TOKEN }}" | docker login ghcr.io -u $ --password-stdin
         
       - name: Push image
         run: |
-          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/${{ env.name }}          
+            docker tag ${{ env.name }}:${{ env.stamp }} ${{ env.name }}:latest
+            docker push ${{ env.name }}:latest
+            docker push ${{ env.name }}:${{ env.stamp }}
           
       # - name: Save docker image
       #   run: |
