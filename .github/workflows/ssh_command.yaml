@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: read
-      packages: write, delete
+      packages: delete
     env:
       name: ghcr.io/yevhennsorganization/pizza-backend
       key: "ssh_key"
