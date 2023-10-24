@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
     env:
       name: ghcr.io/yevhennsorganization/pizza-backend
       key: "ssh_key"
