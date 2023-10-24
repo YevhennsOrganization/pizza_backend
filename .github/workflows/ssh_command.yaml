@@ -21,13 +21,10 @@ jobs:
       host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
       ghcr_user: $(echo ${{ github.repository_owner }} | tr '[A-Z]' '[a-z]')
     steps:
-    - name: Build docker image
-      run: |
-        echo ${GITHUB_REPOSITORY}
 
-    # - uses: actions/delete-package-versions@v4
-    #   with: 
-    #     package-name: '${GITHUB_REPOSITORY#*/}'
-    #     package-type: 'container'
-    #     min-versions-to-keep: 1
-    #     ignore-versions: 'latest'
+    - uses: actions/delete-package-versions@v4
+      with: 
+        package-name: 'pizza-backend'
+        package-type: 'container'
+        min-versions-to-keep: 1
+        ignore-versions: 'latest'
