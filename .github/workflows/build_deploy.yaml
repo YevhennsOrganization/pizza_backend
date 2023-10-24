@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     env:
-      name: "ghcr.io/"${{ github.repository_owner }}"/pizza-backend"
+      name: "pizza-backend"
       key: "ssh_key"
       stamp: ${GITHUB_SHA}
       host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
