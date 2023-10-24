@@ -27,7 +27,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           account-type: org
-          org-name: ${{ env.ghcr_user }}
+          org-name: yevhennsorganization
           cut-off: 1 min ago UTC
           skip-tags: latest
           image-names: pizza-backend
