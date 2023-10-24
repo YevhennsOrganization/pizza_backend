@@ -19,7 +19,7 @@ jobs:
       key: "ssh_key"
       stamp: ${GITHUB_SHA}
       host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
-      ghcr_user: yevhennsorganization
+      ghcr_user: $(echo ${{ github.repository_owner }} | tr '[A-Z]' '[a-z]')
     
     steps:
       - name: SSH key
