@@ -1,0 +1,35 @@
+name: Deploy to Oracle
+
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+      - main
+    paths-ignore:
+      - '.github/workflows/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+    env:
+      name: ghcr.io/yevhennsorganization/pizza-backend
+      key: "ssh_key"
+      stamp: ${GITHUB_SHA}
+      host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
+    
+    steps:
+      - name: SSH key
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > ${key}
+          sudo chmod 400 ${key}
+
+      - name: Start image
+        run: |
+          ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
+          echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u $ --password-stdin \
+          docker pull '${{ env.name }}':latest && \
+          docker compose -d -f ~/backend/docker-compose.yaml up; \
+          docker rmi $(sudo docker images -q)'
