@@ -40,4 +40,4 @@ jobs:
           ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
           sudo docker load -i '${{ env.name }}'.tar && \
           docker rmi $(sudo docker images -q); \
-          rm '${{ env.name }}'.tar'
+          '
