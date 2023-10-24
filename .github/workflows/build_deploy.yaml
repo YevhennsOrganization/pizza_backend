@@ -36,10 +36,15 @@ jobs:
         run: |
           docker push ${{ env.name }}:latest
           docker push ${{ env.name }}:${{ env.stamp }}
-          
-      # - name: Start image
-      #   run: |
-      #     ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
-      #     docker pull ${{ env.name }}:latest && \
-      #     docker compose -d -f ~/backend/docker-compose.yaml up; \
-      #     docker rmi $(sudo docker images -q)'
+
+      - name: SSH key
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > ${key}
+          sudo chmod 400 ${key}
+
+      - name: Start image
+        run: |
+          ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
+          docker pull ${{ env.name }}:latest && \
+          docker compose -d -f ~/backend/docker-compose.yaml up; \
+          docker rmi $(sudo docker images -q)'
