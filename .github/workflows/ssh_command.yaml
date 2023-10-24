@@ -14,6 +14,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      packages: delete
     env:
       name: ghcr.io/yevhennsorganization/pizza-backend
       key: "ssh_key"
@@ -25,7 +26,7 @@ jobs:
       - name: Delete old images
         uses: snok/container-retention-policy@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TOKEN }}
           account-type: org
           org-name: yevhennsorganization
           cut-off: 1 min ago UTC
