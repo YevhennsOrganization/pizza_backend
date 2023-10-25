@@ -3,11 +3,11 @@ const app = require("./app");
 require("dotenv").config();
 
 const port = process.env.PORT || 3000;
-const { DB_HOST } = process.env;
+const { DB_URL } = process.env;
 
 mongoose
   .set("strictQuery", false)
-  .connect(DB_HOST)
+  .connect(DB_URL)
   .then(() =>
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
