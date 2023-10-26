@@ -4,7 +4,7 @@ const logger = require("morgan");
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 require("dotenv").config();
 
-const healthcheckRouter = require("./routes/healthcheck");
+const healthcheckRouter = require("./routes/api/healthcheck");
 const pizzaRouter = require("./routes/api/pizza");
 const appetizerRouter = require("./routes/api/appetizer");
 const drinkRouter = require("./routes/api/drink");

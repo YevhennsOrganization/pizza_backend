@@ -7,10 +7,12 @@ const foodItemsSchema = new Schema(
     dimension: { type: String },
     price: { type: Number },
     photo: { type: String },
+    favorite: { type: Boolean },
+    promotion: { type: Boolean },
   },
   {
     versionKey: false,
-  },
+  }
 );
 
 const Pizza = model("pizza", foodItemsSchema);

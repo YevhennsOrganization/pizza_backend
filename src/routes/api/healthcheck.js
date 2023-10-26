@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const ctrlWrapper = require("../middlewares");
+const ctrlWrapper = require("../../middlewares");
 
-const { healthcheck: ctrl } = require("../controllers");
+const { healthcheck: ctrl } = require("../../controllers");
 
 router.get("/", ctrlWrapper(ctrl.healthcheck));
 
