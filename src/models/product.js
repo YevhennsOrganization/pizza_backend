@@ -1,13 +1,13 @@
 const { Schema, model } = require("mongoose");
 
-const foodItemsSchema = new Schema(
+const productSchema = new Schema(
   {
     title: { type: String },
     description: { type: String },
     dimension: { type: String },
     price: { type: Number },
     photo: { type: String },
-    favorite: { type: Boolean },
+    category: { type: String },
     promotion: { type: Boolean },
   },
   {
@@ -15,8 +15,6 @@ const foodItemsSchema = new Schema(
   }
 );
 
-const Pizza = model("pizza", foodItemsSchema);
-const Appetizer = model("appetizer", foodItemsSchema);
-const Drink = model("drink", foodItemsSchema);
+const Product = model("product", productSchema);
 
-module.exports = { Pizza, Appetizer, Drink };
+module.exports = { Product };
