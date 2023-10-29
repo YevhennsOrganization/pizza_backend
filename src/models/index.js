@@ -1,3 +1,3 @@
-const { Pizza, Appetizer, Drink } = require("./foodItems");
+const { Product } = require("./product");
 
-module.exports = { Pizza, Appetizer, Drink };
+module.exports = { Product };
