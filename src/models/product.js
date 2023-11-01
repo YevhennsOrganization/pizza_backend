@@ -2,13 +2,16 @@ const { Schema, model } = require("mongoose");
 
 const productSchema = new Schema(
   {
-    title: { type: String },
-    description: { type: String },
-    dimension: { type: String },
-    price: { type: Number },
-    photo: { type: String },
-    category: { type: String },
-    promotion: { type: Boolean },
+    title: { type: String, required: [true, "Введіть назву продукту"] },
+    description: { type: String, required: [true, "Введіть опис продукту"] },
+    dimension: { type: String, required: [true, "Введіть розміри продукту"] },
+    price: { type: Number, required: [true, "Введіть ціну продукту"] },
+    photo: {
+      type: String,
+      required: [true, "Введіть посилання на фото продукту"],
+    },
+    category: { type: String, required: [true, "Введіть категорію продукту"] },
+    promotion: { type: Boolean, default: false },
   },
   {
     versionKey: false,
