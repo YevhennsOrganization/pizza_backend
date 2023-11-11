@@ -12,6 +12,10 @@ const productSchema = new Schema(
     },
     category: { type: String, required: [true, "Введіть категорію продукту"] },
     promotion: { type: Boolean, default: false },
+    promPrice: {
+      type: Number,
+      required: [true, "Введіть акційну ціну продукту"],
+    },
   },
   {
     versionKey: false,
