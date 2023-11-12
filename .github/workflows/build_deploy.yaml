@@ -9,7 +9,24 @@ on:
       - '.github/workflows/**'
 
 jobs:
+
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - name: Lint
+        run: |
+          npm ci
+          npm run build --if-present
+          npm run lint
+
   build:
+    needs: lint
     runs-on: ubuntu-22.04
     permissions:
       contents: read
