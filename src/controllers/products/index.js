@@ -1,3 +1,3 @@
-const getAll = require("./getAll");
+const getAll = require('./getAll')
 
-module.exports = { getAll };
+module.exports = { getAll }
