@@ -10,7 +10,7 @@ const sendEmail = async (req, res) => {
   if (req !== undefined) {
     const result = await JSON.parse(req.body.body);
 
-    const items = result.payment.map((item) => item);
+    const items = result.order.map((item) => item);
 
     const summaryInfo = {
       name: result.customerInfo.name,
