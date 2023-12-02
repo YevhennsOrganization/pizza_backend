@@ -15,10 +15,10 @@ const sendEmail = async (req, res) => {
     const summaryInfo = {
       name: result.customerInfo.name,
       number: result.customerInfo.number,
-      sum: result.customerInfo.sum,
       comment: result.customerInfo.comment,
       address: result.customerInfo.address,
       items: items,
+      sum: result.orderSum,
     };
 
     const transporter = nodemailer.createTransport({
@@ -49,7 +49,7 @@ const sendEmail = async (req, res) => {
       },
     };
 
-    await transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error.message, "error");
       } else {
