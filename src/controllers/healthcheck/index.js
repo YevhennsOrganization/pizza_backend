@@ -1,3 +1,3 @@
-const healthcheck = require("./healthcheck");
+const healthcheck = require('./healthcheck')
 
-module.exports = { healthcheck };
+module.exports = { healthcheck }
