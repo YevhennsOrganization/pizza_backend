@@ -1,6 +1,7 @@
 name: Deploy to Oracle
 
 on:
+  workflow_dispatch:
   pull_request:
     types:
       - closed
