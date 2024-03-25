@@ -49,7 +49,7 @@ jobs:
           ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
           echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u '${{ env.ghcr_user }}' --password-stdin; \
           docker pull '${{ env.name }}':latest && \
-          docker compose -f ~/backend/docker-compose.yaml up -d; \
+          docker compose -f ~/pizza-backend/docker-compose.yaml up -d; \
           docker rmi $(sudo docker images -q) || true'
 
       - name: Delete old packages
