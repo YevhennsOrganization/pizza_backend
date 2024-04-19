@@ -18,7 +18,7 @@ jobs:
       packages: write
     env:
       name: ghcr.io/yevhennsorganization/pizza-backend
-      tag: ${GITHUB_REF_NAME}
+      tag: ${GITHUB_SHA}
     
     steps:
       - name: Checkout code
@@ -38,7 +38,7 @@ jobs:
           docker push ${{ env.name }}:${{ env.tag }}
 
       - name: Delete old packages
-        uses: actions/delete-package-versions@v4
+        uses: actions/delete-package-versions@v5
         with: 
           package-name: 'pizza-backend'
           package-type: 'container'
@@ -46,7 +46,7 @@ jobs:
           ignore-versions: 'latest'
 
   deploy:
-    if: github.jobs.build.result == 'success'
+    needs: [build]
     runs-on: ubuntu-22.04
     permissions:
       contents: read
@@ -54,7 +54,7 @@ jobs:
     env:
       name: ghcr.io/yevhennsorganization/pizza-backend
       key: "ssh_key"
-      tag: ${GITHUB_REF_NAME}
+      tag: ${GITHUB_SHA}
       host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
       ghcr_user: $(echo ${{ github.repository_owner }} | tr '[A-Z]' '[a-z]')
       
