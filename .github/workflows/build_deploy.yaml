@@ -18,10 +18,7 @@ jobs:
       packages: write
     env:
       name: ghcr.io/yevhennsorganization/pizza-backend
-      key: "ssh_key"
-      stamp: ${GITHUB_SHA}
-      host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
-      ghcr_user: $(echo ${{ github.repository_owner }} | tr '[A-Z]' '[a-z]')
+      tag: ${GITHUB_REF_NAME}
     
     steps:
       - name: Checkout code
@@ -29,8 +26,8 @@ jobs:
            
       - name: Build docker image
         run: |
-          docker build . -t ${{ env.name }}:${{ env.stamp }}
-          docker tag ${{ env.name }}:${{ env.stamp }} ${{ env.name }}:latest
+          docker build . -t ${{ env.name }}:${{ env.tag }}
+          docker tag ${{ env.name }}:${{ env.tag }} ${{ env.name }}:latest
 
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
@@ -38,8 +35,29 @@ jobs:
       - name: Push image
         run: |
           docker push ${{ env.name }}:latest
-          docker push ${{ env.name }}:${{ env.stamp }}
+          docker push ${{ env.name }}:${{ env.tag }}
 
+      - name: Delete old packages
+        uses: actions/delete-package-versions@v4
+        with: 
+          package-name: 'pizza-backend'
+          package-type: 'container'
+          min-versions-to-keep: 1
+          ignore-versions: 'latest'
+
+  deploy:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+    env:
+      name: ghcr.io/yevhennsorganization/pizza-backend
+      key: "ssh_key"
+      tag: ${GITHUB_REF_NAME}
+      host: ${{ secrets.ORACLE_USER }}"@"${{ secrets.ORACLE_IP }}
+      ghcr_user: $(echo ${{ github.repository_owner }} | tr '[A-Z]' '[a-z]')
+      
+    steps:
       - name: SSH key
         run: |
           echo "${{ secrets.SSH_KEY }}" > ${key}
@@ -52,11 +70,3 @@ jobs:
           docker pull '${{ env.name }}':latest && \
           docker compose -f ~/pizza-backend/docker-compose.yaml up -d; \
           docker rmi $(sudo docker images -q) || true'
-
-      - name: Delete old packages
-        uses: actions/delete-package-versions@v4
-        with: 
-          package-name: 'pizza-backend'
-          package-type: 'container'
-          min-versions-to-keep: 1
-          ignore-versions: 'latest'
