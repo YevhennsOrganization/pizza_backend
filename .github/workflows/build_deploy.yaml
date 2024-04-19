@@ -46,7 +46,7 @@ jobs:
           ignore-versions: 'latest'
 
   deploy:
-    if: github.jobs.build.result == success
+    if: github.jobs.build.result == 'success'
     runs-on: ubuntu-22.04
     permissions:
       contents: read
